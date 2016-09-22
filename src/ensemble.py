@@ -5,22 +5,55 @@ import pandas as pd
 
 from math import log
 
-train = pd.read_csv("../data/train.csv")
-fields = list(train.columns)
-attributes = fields[:-1]
-target = [ fields[-1] ]
+from datetime import datetime
 
-trainArr = train.as_matrix(attributes)
-trainTargetArr = train.as_matrix(target)
+def read_data(filename):
+	dataset = pd.read_csv(filename)
+	fields = list(dataset.columns)
+	return fields, dataset
 
-x = list(train['revenue'])
+def plot_histogram(arr, xlabel, ylabel, title):
+	plt.hist(arr, facecolor='green', alpha=0.75, bins=50)
+	plt.xlabel(xlabel)
+	plt.ylabel(ylabel)
+	plt.title(title)
+	plt.grid(True)
+	plt.show()
 
-y = [log(i) for i in x]
+def parse_date(train_data):
+	latest_date = datetime.strptime("01/01/2015", '%m/%d/%Y')
+	
+	open_num_days = []
+	open_month = []
+	open_year = []
 
-plt.hist(y, facecolor='green', alpha=0.75, bins=50)
-plt.xlabel('Revenue')
-plt.ylabel('Frequency')
-plt.title(r'Histogram of Revenue')
-plt.grid(True)
+	for date in train_data['Open Date']:
+		cur_date = datetime.strptime(date, '%m/%d/%Y')
+		open_num_days.append((latest_date - cur_date).days)
+		open_month.append(cur_date.month)
+		open_year.append(cur_date.year)
 
-plt.show()
+	train_data['No. of days open'] = open_num_days
+	train_data['Month of opening'] = open_month
+	train_data['Year of opening'] = open_year
+
+if __name__ == "__main__":
+
+	train_fields, train_data = read_data("../data/train.csv")
+	attributes = train_fields[:-1]
+	target = [ train_fields[-1] ]
+
+	train_arr = train_data.as_matrix(attributes)
+	train_target_arr = train_data.as_matrix(target)
+
+	x = list(train_data['revenue'])
+
+	y = [log(i) for i in x]
+
+	# plot_histogram(x, "Revenue", "Frequency", "Histogram of Revenue")
+	# plot_histogram(y, "Log(Revenue)", "Frequency", "Histogram of Log(Revenue)")
+
+	parse_date(train_data)
+
+	print train_data
+

@@ -103,8 +103,8 @@ def calc_final_predictions(rf_predictions, svm_predictions):
 
 if __name__ == "__main__":
 
-	train_data = read_data("train.csv")
-	test_data = read_data("test.csv")
+	train_data = read_data("../data/train.csv")
+	test_data = read_data("../data/test.csv")
 
 	attributes = ['City', 'City Group', 'Type',
 			 'P1','P2','P3','P4','P5','P6',	'P7','P8','P9','P10','P11','P12',

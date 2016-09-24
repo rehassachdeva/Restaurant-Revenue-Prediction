@@ -61,9 +61,7 @@ def adjust_type(test_data):
 	query_matrix['Type'] = clf.predict(query_matrix[features])
 
 	test_data = search_matrix.append(query_matrix)
-	#test_data = test_data.sort_values(['Id'])
-	test_data = test_data.sort(['Id'])
-
+	test_data = test_data.sort_values(['Id'])
 	return test_data
 
 def adjust_city(train_data,test_data):

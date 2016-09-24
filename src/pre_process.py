@@ -110,4 +110,14 @@ for x in range(1,len(test)):
 #accuracy = getAccuracy(testSet, predictions)
 #print('Accuracy: ' + repr(accuracy) + '%')
 	
+#Write the new test and train files. 
+with open('PreProcessedTrain.csv', 'w') as mycsvfile:
+    thedatawriter = csv.writer(mycsvfile, dialect='mydialect')
+    for row in train:
+        thedatawriter.writerow(row)
+
+with open('PreProcessedTest.csv', 'w') as mycsvfile:
+    thedatawriter = csv.writer(mycsvfile, dialect='mydialect')
+    for row in test:
+        thedatawriter.writerow(row)
 

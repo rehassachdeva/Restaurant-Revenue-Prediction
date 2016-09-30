@@ -10,6 +10,8 @@ from datetime import datetime
 
 from sklearn.neighbors import KNeighborsClassifier
 
+from sklearn.cluster import KMeans
+
 from sklearn.ensemble import RandomForestRegressor
 
 from sklearn.decomposition import PCA
@@ -60,8 +62,15 @@ def adjust_type(test_data):
 
 	test_data = search_matrix.append(query_matrix)
 	test_data = test_data.sort_values(['Id'])
-
 	return test_data
+
+def adjust_city(train_data,test_data):
+	data=train_data.append(test_data)
+	features = [ 'P1', 'P2', 'P11', 'P19', 'P20', 'P23', 'P30' ]
+	kmeans = KMeans(n_clusters=20).fit(data[features])
+	train_data['City']=kmeans.predict(train_data[features].values)
+	test_data['City']=kmeans.predict(test_data[features].values)
+	return train_data,test_data
 
 def encode_transform(train_data, test_data, attributes):
 	train_arr = train_data.as_matrix(attributes)
@@ -120,10 +129,13 @@ if __name__ == "__main__":
 	# plot_histogram(x, "Revenue", "Frequency", "Histogram of Revenue")
 	# plot_histogram(y, "Log(Revenue)", "Frequency", "Histogram of Log(Revenue)")
 
-	parse_date(train_data)
+	#Pre Processing
+	#insert 2 new features, month and year that  can potentially help proxy seasonality differences since restaurant revenues are highly cylical.
+	parse_date(train_data) 
 	parse_date(test_data)
-
+	#  disparity between the features for the training set and test set
 	test_data = adjust_type(test_data)
+	train_data, test_data = adjust_city(train_data, test_data)
 
 	# train_data, test_data = pca_transform(train_data, test_data)
 

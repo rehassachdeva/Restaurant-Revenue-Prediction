@@ -39,6 +39,14 @@ def parse_date(train_data):
 	train_data['Month'] = open_month
 	train_data['Year'] = open_year
 
+def svm_regression(train_arr, train_target_arr, query):
+	
+#one vs many regresion classifier
+lin_clf = svm.LinearSVR()
+lin_clf.fit(trainArr, trainClassArr.ravel())	#ravel,to make numpy.ndarray to 1D
+
+
+
 def adjust_type(test_data):
 	query_matrix = test_data.query('Type == "MB"')
 	search_matrix = test_data.query('Type != "MB"')

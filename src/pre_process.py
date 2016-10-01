@@ -6,19 +6,6 @@ import random
 import math
 import operator
  
-def loadDataset(filename, split, trainingSet=[] , testSet=[]):
-	with open(filename, 'rb') as csvfile:
-	    lines = csv.reader(csvfile)
-	    dataset = list(lines)
-	    for x in range(len(dataset)-1):
-	        for y in range(4):
-	            dataset[x][y] = float(dataset[x][y])
-	        if random.random() < split:
-	            trainingSet.append(dataset[x])
-	        else:
-	            testSet.append(dataset[x])
- 
- 
 def euclideanDistance(instance1, instance2, length):
 	distance = 0
 	for x in range(length):
@@ -110,4 +97,14 @@ for x in range(1,len(test)):
 #accuracy = getAccuracy(testSet, predictions)
 #print('Accuracy: ' + repr(accuracy) + '%')
 	
+#Write the new test and train files. 
+with open('PreProcessedTrain.csv', 'w') as mycsvfile:
+    thedatawriter = csv.writer(mycsvfile, dialect='mydialect')
+    for row in train:
+        thedatawriter.writerow(row)
+
+with open('PreProcessedTest.csv', 'w') as mycsvfile:
+    thedatawriter = csv.writer(mycsvfile, dialect='mydialect')
+    for row in test:
+        thedatawriter.writerow(row)
 

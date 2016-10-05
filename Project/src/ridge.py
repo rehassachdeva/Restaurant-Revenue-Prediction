@@ -26,7 +26,7 @@ class RidgeRegressor(object):
 
 if __name__ == '__main__':
     X = np.linspace(0, 6, 100)
-    y = 1 + 2 * np.sin(X)
+    y = 2 + 2 * np.sin(X)
     yhat = y + .5 * np.random.normal(size=len(X))
 
     plt.plot(X, y, 'g', label='y = 1 + 2 * sin(x)')

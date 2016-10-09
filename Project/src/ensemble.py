@@ -149,4 +149,4 @@ if __name__ == "__main__":
 
 	final_predictions = calc_final_predictions(rf_predictions, svm_predictions)
 
-	print final_predictions
+	print(final_predictions)

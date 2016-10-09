@@ -16,25 +16,24 @@ class LogisticRegression:
         self.l2=l2
         self.likelihood_history = []
     def log_likelihood(self):
-
-        #Get Probablities
-        p = self.probability()
-        #Get Log Likelihood For Each Row of Dataset
-        loglikelihood = self.labels*np.log(p+1e-24) + (1-self.labels)*np.log(1-p+1e-24)
-        loglikelihood = -1*loglikelihood.sum()
-        #Return Sum
-        return loglikelihood
+    	p = self.probability()
+    	loglikelihood = self.labels*np.log(p+1e-24) + (1-self.labels)*np.log(1-p+1e-24)
+    	loglikelihood = -1*loglikelihood.sum()
+    	loglikelihood += self.l1*np.abs(self.w).sum()
+    	loglikelihood += self.l2*np.power(self.w, 2).sum()/2
+    	return loglikelihood
  
     def probability(self):
 
         return 1/(1+np.exp(-self.features.dot(self.w)))
  
     def log_likelihood_gradient(self):
-
-        error = self.labels-self.probability()
-        product = error*self.features
-        grad = product.sum(axis=0).reshape(self.w.shape)
-        return grad
+    	error = self.labels-self.probability()
+    	product = error*self.features
+    	grad = product.sum(axis=0).reshape(self.w.shape)
+    	grad -= self.l1*np.sign(self.w)
+    	grad -= self.l2*self.w
+    	return grad
  
     def gradient_decent(self,alpha=1e-7,max_iterations=1e4):
 

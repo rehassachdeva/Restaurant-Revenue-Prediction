@@ -1,10 +1,9 @@
 #!/bin/python
 
 import numpy as np
-class LogisticRegression:
+class Regression:
  
     def __init__(self,X,y,tolerance=1e-5,l1=0.,l2=0.):
-        """Initializes Class for Logistic Regression"""
         self.tolerance = tolerance
         self.labels = y.reshape(y.size,1)
         self.w = np.zeros((X.shape[1]+1,1))
@@ -49,11 +48,18 @@ class LogisticRegression:
             self.likelihood_history.append(previous_likelihood)
             iteration += 1
  
-    def predict_probabilty(self,X):
-        features = np.ones((X.shape[0],X.shape[1]+1))
-        features[:,1:] = (X-self.mean_x)/self.std_x
-        return 1/(1+np.exp(-features.dot(self.w)))
+    #def predict_probabilty(self,X):
+    #    features = np.ones((X.shape[0],X.shape[1]+1))
+    #    features[:,1:] = (X-self.mean_x)/self.std_x
+    #    return 1/(1+np.exp(-features.dot(self.w)))
  
     def get_coefficients(self):
         return self.w.T[0]
+
+    def fit(self, data, truth, alpha):
+    	self.gradient_decent(apha)
+    	return self.get_coefficients()
+
+    def predict(self, test):
+    	return np.transpose(self.w)*np.array(test)
  
